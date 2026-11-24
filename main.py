@@ -16,9 +16,15 @@ LINE = (
 def main() -> None:
     # Guard the competition rules at runtime: one line, 1-200 chars.
     # Fail loudly instead of silently writing an invalid entry.
+    # The entry line itself is fixed text; this guard only validates
+    # its shape (length and single-line form) before anything is written.
     line = LINE.strip()
-    assert 1 <= len(line) <= 200, f"entry line must be 1-200 chars, got {len(line)}"
-    assert "\n" not in line and "\r" not in line, "entry line must be a single line"
+    assert 1 <= len(line) <= 200, (
+        f"entry line must be 1-200 characters long, got {len(line)}"
+    )
+    assert "\n" not in line and "\r" not in line, (
+        "entry line must be a single line with no newline characters"
+    )
 
     out_dir = os.environ.get("MAKEFUN_OUTPUT_DIR", "/output")
     os.makedirs(out_dir, exist_ok=True)
